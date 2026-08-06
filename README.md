@@ -170,7 +170,7 @@ New-AzStorageContainer -Name "monthly-reports" -Context $ctx -Permission Off
 ### Step 6 — Build the Logic App
 Create a Consumption Logic App with:
 1. **Recurrence** trigger — Monthly, 1st day, 07:00 UTC
-2. **Azure Automation – Create job** — points to the runbook, Wait for Job = Yes
+2. **Azure Automation – Create job** — points to the runbook, Wait for Job = Yes. **Click "Show all" under Advanced parameters** and fill in **Runbook Parameter StorageAccount** and **Runbook Parameter StorageRG** — these are mandatory on the runbook (see [Configuration Notes](#configuration-notes)), and the job will fail immediately with `"Cannot process command because of one or more missing mandatory parameters"` if left blank.
 3. **Azure Automation – Get job output** — Job ID from step 2
 4. **Parse JSON** — Content = output of step 3, Schema matches the runbook's final JSON output (see script)
 5. **Azure Blob Storage – Get blob content (V2)** — Blob = `BlobPath` from Parse JSON

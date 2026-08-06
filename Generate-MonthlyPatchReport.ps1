@@ -46,11 +46,11 @@ $subNames        = @{}
 $subsResp.value  | ForEach-Object { $subNames[$_.subscriptionId] = $_.displayName }
 Write-Verbose "Subscriptions: $($subscriptionIds.Count)" -Verbose
 
-# ── 4. Date range ─────────────────────────────────────────────────────
+# ── 4. Date range: previous full calendar month ───────────────────────
 $now       = Get-Date
-$startDate = Get-Date -Year $now.Year -Month $now.Month -Day 1   # Change to AddMonths(-1) for prod
-$endDate   = $now
-$monthStr  = $now.ToString('yyyy-MM')
+$startDate = (Get-Date -Year $now.Year -Month $now.Month -Day 1).AddMonths(-1)
+$endDate   = (Get-Date -Year $now.Year -Month $now.Month -Day 1).AddSeconds(-1)
+$monthStr  = $startDate.ToString('yyyy-MM')
 $startIso  = $startDate.ToString('o')
 $endIso    = $endDate.ToString('o')
 Write-Verbose "Period: $startIso to $endIso" -Verbose
